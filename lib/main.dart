@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,6 +51,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   void getFoodData() async{
     const key = "6e2aa9bdb920f66d"; //api
@@ -124,95 +132,45 @@ class _MyHomePageState extends State<MyHomePage> {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: Column(
-          children: [
-            //const Text('マップの画面'),
-            Column( // 縦
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Row( // 横
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.125, right: size.width * 0.1),
-                  child: ElevatedButton( // 「通常ガチャ」ボタン
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD90909),
-                    ),
-                    child: const Text(
-                      '通常ガチャ',
-                      style: TextStyle(
-                      color: Colors.white, // テキストの色を白に設定
-                      ),
-                    ),
+      // body: GoogleMap(
+      //   onMapCreated: _onMapCreated,
+      //   initialCameraPosition: CameraPosition(
+      //     target: _center,
+      //     zoom: 11.0
+      //   ),
+      // ),
+      // bottomNavigationBar: NavigationBar(
+      //   indicatorColor: Colors.amber[800],
+      //   destinations: const <Widget>[
+      //     NavigationDestination(
+      //       icon: Icon(Icons.business),
+      //       label: 'Business',
+      //     ),
+      //     NavigationDestination(
+      //       icon: Icon(Icons.business),
+      //       label: 'Business',
+      //     ),
+      //     NavigationDestination(
+      //       selectedIcon: Icon(Icons.school),
+      //       icon: Icon(Icons.school_outlined),
+      //       label: 'School',
+      //     ),
+      //   ],
+      // ),
 
-                    onPressed: (){
-                      getFoodData();
-                    // ここにボタンを押した時に呼ばれるコードを書く
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.125),
-                  child: ElevatedButton( // 「闇鍋ガチャ」ボタン
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFCECECE),
-                    ),
-                    child: const Text(
-                      '闇鍋ガチャ',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      ),
-                    onPressed: (){
-                      getTouristSpot();
-                    // ここにボタンを押した時に呼ばれるコードを書く
-                    },
-                  ),
-                )
-              ]
-            ),
-            Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.485), // 余白
-                  child: SizedBox( // ボタンのサイズ変更
-                  width: 150,
-                  height: 80,
-                  child: ElevatedButton( // 「通常ガチャ」ボタン
-                    style: ElevatedButton.styleFrom( // 色をつける
-                      backgroundColor: const Color(0xFFD90909),
-                    ),
-                    child: const Text( // テキスト
-                      'ガチャる',
-                      style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25 // テキストの色を白に設定
-                      ),
-                    ),
+      bottomNavigationBar: Column(
+         children: [
+           Expanded(
+               child: GoogleMap(
+                 onMapCreated: _onMapCreated,
+                 initialCameraPosition: CameraPosition(
+                   target: _center,
+                   zoom: 11.0
+                 ),
+               )),
 
-                    onPressed: (){
-                    // ここにボタンを押した時に呼ばれるコードを書く
-                    },
-                  ),
-                )
-              ),
 
-            
-            // Padding(
-            //   padding: EdgeInsets.only(top: screenSize.height * 0.125),
-            //   child: ElevatedButton(
-            //     child: const Text('次へ'),
-            //     onPressed: (){
-            //     // ここにボタンを押した時に呼ばれるコードを書く
-            //     },
-            //   ),
-            // )
-            
-          ],
-        ),
-            Expanded(
-              child: Container(), // 空のコンテナでスペースを占有
-            ),
-            Container(
+           Container(
               width: double.infinity,
               padding: EdgeInsets.all(size.height * 0.01),
               color: Colors.blue,
