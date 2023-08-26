@@ -8,8 +8,8 @@ import 'package:amanojaku/setting_page.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
-import 'package:csv/csv.dart';
+// import 'dart:io';
+// import 'package:csv/csv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
@@ -114,16 +114,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void getTouristSpot() async{
     // String csv = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
-    final input = File('assets/kyoto-tourist-spot.csv').openRead();
-    final fields = await input
-        .transform(utf8.decoder)
-        .transform(const CsvToListConverter())
-        .toList();
+    // final input = File('assets/kyoto-tourist-spot.csv').openRead();
+    // final fields = await input
+    //     .transform(utf8.decoder)
+    //     .transform(const CsvToListConverter())
+    //     .toList();
 
 
-    for (final row in fields) {
-      print(row);
-    }
+    // for (final row in fields) {
+    //   print(row);
+    // }
     
   }
 
