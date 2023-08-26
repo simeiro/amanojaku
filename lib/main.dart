@@ -1,7 +1,15 @@
+// import 'dart:ffi';
+// import 'dart:ffi' as ffi;
+
 import 'package:flutter/material.dart';
 import 'package:amanojaku/dark_gotcha_page.dart';
 import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:amanojaku/setting_page.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+import 'package:csv/csv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
@@ -36,6 +44,8 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -47,6 +57,74 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  void getFoodData() async{
+    const key = "6e2aa9bdb920f66d"; //api
+    const lat = "35.004928278716674"; //緯度
+    const lng = "135.75843372522007"; //経度
+    const range_val = "1";// 1: 半径300m
+    const count = "50"; // 50件
+
+    var url = Uri.parse(
+      "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
+      "?key=$key&lat=$lat&lng=$lng&range=$range_val&count=$count&format=json",
+    );
+    // print(url.toString()); // URLを表示
+    var response = await http.get(url);
+    final jsonData = json.decode(response.body);
+    // print(jsonData);
+    for(var data in jsonData["results"]["shop"]){
+      String ans = "";
+      bool splitFlag = true;
+      // print(data["name"] + " : " + data["budget"]["name"] + " , " + data["budget"]["average"]);
+      for(var i = 0; i < data["budget"]["name"].length; i++){
+        if(int.tryParse(data["budget"]["name"][i]) != null){
+          ans += data["budget"]["name"][i];
+          splitFlag = true;
+        }else if(splitFlag){
+          ans += ",";
+          splitFlag = false;
+        }
+      }
+      for(var i = 0; i < data["budget"]["average"].length; i++){
+        if(int.tryParse(data["budget"]["average"][i]) != null){ // 数字であれば
+          ans += data["budget"]["average"][i];
+          splitFlag = true;
+        }else if(splitFlag){ //,,,,,のように何回も,を文字列に追加しないためのflag
+          if(data["budget"]["average"][i] != ","){ //文字がカンマでなければ
+            ans += ",";
+            splitFlag = false;
+          }
+        }
+      }
+      List<String> numbersList = ans.split(",");
+      numbersList.removeLast();
+      // print(numbersList);
+      int sum = 0;
+      for(var data in numbersList){
+        sum += int.tryParse(data)!;
+      }
+      // print(sum / numbersList.length);
+      print((sum / numbersList.length).toString() + "円 : " + data["name"] +" : " +  data["genre"]["name"]);
+      // print(data["lat"].toString() + ", " + data["lng"].toString()); // 緯度と経度
+      //
+    }
+  }
+
+  void getTouristSpot() async{
+    // String csv = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
+    final input = File('assets/kyoto-tourist-spot.csv').openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(const CsvToListConverter())
+        .toList();
+
+
+    for (final row in fields) {
+      print(row);
+    }
+    
   }
 
   @override
@@ -61,7 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //     zoom: 11.0
       //   ),
       // ),
-
       // bottomNavigationBar: NavigationBar(
       //   indicatorColor: Colors.amber[800],
       //   destinations: const <Widget>[
