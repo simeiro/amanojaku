@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'map'),
       routes: {
-        "/map_page": (context) => const MyHomePage(title: 'map',),
+        "/map_page": (context) => const MyHomePage(
+              title: 'map',
+            ),
         "/dark_gotcha_page": (context) => const DarkGotchaPage(),
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(),
         "/setting_page": (context) => const SettingPage(),
@@ -43,8 +45,6 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-
-
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -59,11 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
     mapController = controller;
   }
 
-  void getFoodData() async{
+  void getFoodData() async {
     const key = "6e2aa9bdb920f66d"; //api
     const lat = "35.004928278716674"; //緯度
     const lng = "135.75843372522007"; //経度
-    const range_val = "1";// 1: 半径300m
+    const range_val = "1"; // 1: 半径300m
     const count = "50"; // 50件
 
     var url = Uri.parse(
@@ -74,25 +74,28 @@ class _MyHomePageState extends State<MyHomePage> {
     var response = await http.get(url);
     final jsonData = json.decode(response.body);
     // print(jsonData);
-    for(var data in jsonData["results"]["shop"]){
+    for (var data in jsonData["results"]["shop"]) {
       String ans = "";
       bool splitFlag = true;
       // print(data["name"] + " : " + data["budget"]["name"] + " , " + data["budget"]["average"]);
-      for(var i = 0; i < data["budget"]["name"].length; i++){
-        if(int.tryParse(data["budget"]["name"][i]) != null){
+      for (var i = 0; i < data["budget"]["name"].length; i++) {
+        if (int.tryParse(data["budget"]["name"][i]) != null) {
           ans += data["budget"]["name"][i];
           splitFlag = true;
-        }else if(splitFlag){
+        } else if (splitFlag) {
           ans += ",";
           splitFlag = false;
         }
       }
-      for(var i = 0; i < data["budget"]["average"].length; i++){
-        if(int.tryParse(data["budget"]["average"][i]) != null){ // 数字であれば
+      for (var i = 0; i < data["budget"]["average"].length; i++) {
+        if (int.tryParse(data["budget"]["average"][i]) != null) {
+          // 数字であれば
           ans += data["budget"]["average"][i];
           splitFlag = true;
-        }else if(splitFlag){ //,,,,,のように何回も,を文字列に追加しないためのflag
-          if(data["budget"]["average"][i] != ","){ //文字がカンマでなければ
+        } else if (splitFlag) {
+          //,,,,,のように何回も,を文字列に追加しないためのflag
+          if (data["budget"]["average"][i] != ",") {
+            //文字がカンマでなければ
             ans += ",";
             splitFlag = false;
           }
@@ -102,17 +105,21 @@ class _MyHomePageState extends State<MyHomePage> {
       numbersList.removeLast();
       // print(numbersList);
       int sum = 0;
-      for(var data in numbersList){
+      for (var data in numbersList) {
         sum += int.tryParse(data)!;
       }
       // print(sum / numbersList.length);
-      print((sum / numbersList.length).toString() + "円 : " + data["name"] +" : " +  data["genre"]["name"]);
+      print((sum / numbersList.length).toString() +
+          "円 : " +
+          data["name"] +
+          " : " +
+          data["genre"]["name"]);
       // print(data["lat"].toString() + ", " + data["lng"].toString()); // 緯度と経度
       //
     }
   }
 
-  void getTouristSpot() async{
+  void getTouristSpot() async {
     // String csv = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
     // final input = File('assets/kyoto-tourist-spot.csv').openRead();
     // final fields = await input
@@ -120,11 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
     //     .transform(const CsvToListConverter())
     //     .toList();
 
-
     // for (final row in fields) {
     //   print(row);
     // }
-    
   }
 
   @override
@@ -159,94 +164,97 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
 
       bottomNavigationBar: Column(
-         children: [
-           Expanded(
-               child: GoogleMap(
-                 onMapCreated: _onMapCreated,
-                 initialCameraPosition: CameraPosition(
-                   target: _center,
-                   zoom: 11.0
-                 ),
-               )),
+        children: [
+          SizedBox(
+            height: size.height * 0.85,
+              child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
+          )),
+          
+          const Divider(
+          // アイコンの区切り線
+          color: Colors.black,
+          thickness: 3,
+          indent: 20,
+          endIndent: 20,
+        ),
 
-
-           Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(size.height * 0.01),
-              color: Colors.blue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: size.width * 0.15,
-                    height: size.width * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/map.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/map_page");
-                        },
-                      ),
+          SizedBox(
+            width: double.infinity,
+            // padding: EdgeInsets.all(size.height * 0.01),
+            // color: Colors.blue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: size.width * 0.15,
+                  height: size.width * 0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: const DecorationImage(
+                      image: AssetImage("images/map.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-
-                  Container(
-                    width: size.width * 0.15,
-                    height: size.width * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/capsule.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/dark_gotcha_page");
-                        },
-                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/map_page");
+                      },
                     ),
                   ),
-
-                  Container(
-                    width: size.width * 0.15,
-                    height: size.width * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/bars.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/setting_page");
-                        },
-                      ),
+                ),
+                Container(
+                  width: size.width * 0.15,
+                  height: size.width * 0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: const DecorationImage(
+                      image: AssetImage("images/capsule.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
-              ),
-            )
-          ],
-        ), // This trailing com
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8.0),
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/dark_gotcha_page");
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  width: size.width * 0.15,
+                  height: size.width * 0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: const DecorationImage(
+                      image: AssetImage("images/bars.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8.0),
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/setting_page");
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ), // This trailing com
     );
   }
 }
