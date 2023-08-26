@@ -46,14 +46,89 @@ class _MyHomePageState extends State<MyHomePage> {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
         body: Column(
           children: [
-            const Text('マップの画面'),
-            const Text('その１'),
-            const Text('その２'),
+            //const Text('マップの画面'),
+            Column( // 縦
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Row( // 横
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.125, right: size.width * 0.1),
+                  child: ElevatedButton( // 「通常ガチャ」ボタン
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD90909),
+                    ),
+                    child: const Text(
+                      '通常ガチャ',
+                      style: TextStyle(
+                      color: Colors.white, // テキストの色を白に設定
+                      ),
+                    ),
+
+                    onPressed: (){
+                    // ここにボタンを押した時に呼ばれるコードを書く
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.125),
+                  child: ElevatedButton( // 「闇鍋ガチャ」ボタン
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFCECECE),
+                    ),
+                    child: const Text(
+                      '闇鍋ガチャ',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      ),
+                    onPressed: (){
+                    // ここにボタンを押した時に呼ばれるコードを書く
+                    },
+                  ),
+                )
+              ]
+            ),
+            Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.485), // 余白
+                  child: SizedBox( // ボタンのサイズ変更
+                  width: 150,
+                  height: 80,
+                  child: ElevatedButton( // 「通常ガチャ」ボタン
+                    style: ElevatedButton.styleFrom( // 色をつける
+                      backgroundColor: const Color(0xFFD90909),
+                    ),
+                    child: const Text( // テキスト
+                      'ガチャる',
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25 // テキストの色を白に設定
+                      ),
+                    ),
+
+                    onPressed: (){
+                    // ここにボタンを押した時に呼ばれるコードを書く
+                    },
+                  ),
+                )
+              ),
+
+            
+            // Padding(
+            //   padding: EdgeInsets.only(top: screenSize.height * 0.125),
+            //   child: ElevatedButton(
+            //     child: const Text('次へ'),
+            //     onPressed: (){
+            //     // ここにボタンを押した時に呼ばれるコードを書く
+            //     },
+            //   ),
+            // )
+            
+          ],
+        ),
             Expanded(
               child: Container(), // 空のコンテナでスペースを占有
             ),
