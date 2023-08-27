@@ -12,7 +12,7 @@ class DarkGotchaPage extends StatelessWidget {
     return MaterialApp(
       routes: {
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
-        "/result_page": (context) => const ResultPage(), // 闇鍋ガチャのページ
+        "/result_page": (context) => ResultPage(), // 闇鍋ガチャのページ
       },
         home: Scaffold(
             body: Column(

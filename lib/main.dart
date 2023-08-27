@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             ),
         "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
-        "/result_page": (context) => const ResultPage(), // 排出結果
+        "/result_page": (context) => ResultPage(), // 排出結果
         "/setting_page": (context) => const SettingPage(), // 設定のページ
       },
     );
