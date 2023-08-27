@@ -3,8 +3,17 @@ import 'package:amanojaku/dark_gotcha_page.dart';
 import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:amanojaku/setting_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Future(() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      await Geolocator.requestPermission();
+    }
+  });
   runApp(const MyApp());
 }
 
@@ -43,10 +52,36 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  // 初期値は京都駅
+  final LatLng _center = const LatLng(34.98605114412095, 135.7587666963162);
+
+  final Set<Marker> _markers = {
+    const Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(34.98605114412095, 135.7587666963162),
+        infoWindow: InfoWindow(title: "京都駅")),
+  };
+
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+
+  Widget _createMap(LatLng center) {
+    return Expanded(
+      child: GoogleMap(
+        mapType: MapType.normal,
+        onMapCreated: _onMapCreated,
+        // 端末の位置情報を使用する。
+        myLocationEnabled: true,
+        // 端末の位置情報を地図の中心に表示するボタンを表示する。
+        myLocationButtonEnabled: true,
+        initialCameraPosition: CameraPosition(target: center, zoom: 15),
+        // マーカを表示する。
+        markers: _markers,
+      ),
+    );
   }
 
   @override
@@ -54,44 +89,12 @@ class _MyHomePageState extends State<MyHomePage> {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // body: GoogleMap(
-      //   onMapCreated: _onMapCreated,
-      //   initialCameraPosition: CameraPosition(
-      //     target: _center,
-      //     zoom: 11.0
-      //   ),
-      // ),
 
-      // bottomNavigationBar: NavigationBar(
-      //   indicatorColor: Colors.amber[800],
-      //   destinations: const <Widget>[
-      //     NavigationDestination(
-      //       icon: Icon(Icons.business),
-      //       label: 'Business',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.business),
-      //       label: 'Business',
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.school),
-      //       icon: Icon(Icons.school_outlined),
-      //       label: 'School',
-      //     ),
-      //   ],
-      // ),
+      body: Column(
 
-      bottomNavigationBar: Column(
          children: [
            Expanded(
-               child: GoogleMap(
-                 onMapCreated: _onMapCreated,
-                 initialCameraPosition: CameraPosition(
-                   target: _center,
-                   zoom: 11.0
-                 ),
-               )),
-
+               child: _createMap(_center)),
 
            Container(
               width: double.infinity,
