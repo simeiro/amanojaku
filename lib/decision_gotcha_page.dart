@@ -9,11 +9,11 @@ class DecisionGotchaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final sizes = MediaQuery.of(context).size; // 画面サイズを取得する
     return MaterialApp(
-        routes: {
-          "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 闇鍋ガチャのページ
-        },
-        home: Scaffold(
-            body: Column(
+      routes: {
+        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 闇鍋ガチャのページ
+      },
+      home: Scaffold(
+        body: Column(
           // 縦に並べる
           children: [
             Column(
@@ -205,6 +205,8 @@ class DecisionGotchaPage extends StatelessWidget {
               ),
             )
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
