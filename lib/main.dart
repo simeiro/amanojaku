@@ -9,8 +9,9 @@ import 'package:amanojaku/result_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:io';
 import 'package:csv/csv.dart';
+// import 'dart:math' as math;
+// import 'dart:io';
 
 void main() {
   runApp(const MyApp());
@@ -122,16 +123,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void getTouristSpot() async {
     // String csv = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
-    final input = File('assets/kyoto-tourist-spot.csv').openRead();
-    final fields = await input
-        .transform(utf8.decoder)
-        .transform(const CsvToListConverter())
+    final input = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
+    final fields = CsvToListConverter().convert(input)
         .toList();
 
     for (final row in fields) {
-      print(row);
+      if (row[3].contains('京都市')) {
+        print("場所 : " + row[4] + ", 緯度 : " + row[10].toString() + ", 経度 : " + row[11].toString());
+        // ここに条件が成立したときの処理を書く
+      }
+      
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
                       onTap: () {
-                        // getTouristSpot();
+                        getTouristSpot();
                         Navigator.of(context).pushNamed("/setting_page");
                       },
                     ),
