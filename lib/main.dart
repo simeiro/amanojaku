@@ -6,7 +6,6 @@ import 'package:amanojaku/dark_gotcha_page.dart';
 import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:amanojaku/setting_page.dart';
 import 'package:amanojaku/result_page.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -35,8 +34,9 @@ class MyApp extends StatelessWidget {
               title: 'map',
             ),
         "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ
-        "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
-        "/result_page": (context) => ResultPage(), // 排出結果
+        "/decision_gotcha_page": (context) =>
+            const DecisionGotchaPage(), // 闇鍋ガチャのページ
+        "/result_page": (context) => const ResultPage(), // 排出結果
         "/setting_page": (context) => const SettingPage(), // 設定のページ
       },
     );
@@ -172,23 +172,22 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: Column(
         children: [
           SizedBox(
-            height: size.height * 0.85,
+              height: size.height * 0.85,
               child: GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
-          )),
+                onMapCreated: _onMapCreated,
+                initialCameraPosition:
+                    CameraPosition(target: _center, zoom: 11.0),
+              )),
           Expanded(
-          child: Container(), // 空のコンテナでスペースを占有
-        ),
-          
+            child: Container(), // 空のコンテナでスペースを占有
+          ),
           const Divider(
-          // アイコンの区切り線
-          color: Colors.black,
-          thickness: 3,
-          indent: 20,
-          endIndent: 20,
-        ),
-
+            // アイコンの区切り線
+            color: Colors.black,
+            thickness: 3,
+            indent: 20,
+            endIndent: 20,
+          ),
           SizedBox(
             width: double.infinity,
             // padding: EdgeInsets.all(size.height * 0.01),
@@ -244,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    
                     image: const DecorationImage(
                       image: AssetImage("images/bars.png"),
                       fit: BoxFit.cover,

@@ -1,6 +1,6 @@
-import 'package:amanojaku/main.dart';
+// import 'package:amanojaku/main.dart';
 import 'package:flutter/material.dart';
-import 'package:amanojaku/dark_gotcha_page.dart';
+// import 'package:amanojaku/dark_gotcha_page.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -10,14 +10,8 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        "/map_page": (context) => const MyHomePage(title: "map",),
-        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ
-        "/setting_page": (context) => const SettingPage(), // 設定のページ
-      },
-      title: 'Flutter Demo',
-      home: _DropdownButtonDemo(),
+    return const Scaffold(
+      body: _DropdownButtonDemo(),
     );
   }
 }
