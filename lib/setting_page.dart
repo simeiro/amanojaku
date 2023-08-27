@@ -16,6 +16,9 @@ class SettingPage extends StatelessWidget {
             padding: EdgeInsets.only(top: size.height * 0.74),
             // child: Container(), // 空のコンテナでスペースを占有
           ),
+          Expanded(
+            child: Container(), // 空のコンテナでスペースを占有
+          ),
           const Divider(
             // アイコンの区切り線
             color: Colors.black,
@@ -29,8 +32,8 @@ class SettingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -50,8 +53,8 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -71,8 +74,8 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),

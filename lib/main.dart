@@ -8,9 +8,9 @@ import 'package:amanojaku/setting_page.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// import 'dart:io';
-// import 'package:csv/csv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:io';
+import 'package:csv/csv.dart';
 
 void main() {
   runApp(const MyApp());
@@ -121,15 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void getTouristSpot() async {
     // String csv = await rootBundle.loadString('assets/kyoto-tourist-spot.csv');
-    // final input = File('assets/kyoto-tourist-spot.csv').openRead();
-    // final fields = await input
-    //     .transform(utf8.decoder)
-    //     .transform(const CsvToListConverter())
-    //     .toList();
+    final input = File('assets/kyoto-tourist-spot.csv').openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(const CsvToListConverter())
+        .toList();
 
-    // for (final row in fields) {
-    //   print(row);
-    // }
+    for (final row in fields) {
+      print(row);
+    }
   }
 
   @override
@@ -171,6 +171,9 @@ class _MyHomePageState extends State<MyHomePage> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
           )),
+          Expanded(
+          child: Container(), // 空のコンテナでスペースを占有
+        ),
           
           const Divider(
           // アイコンの区切り線
@@ -188,8 +191,8 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -209,8 +212,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -230,11 +233,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  width: size.width * 0.15,
-                  height: size.width * 0.15,
+                  width: size.height * 0.1,
+                  height: size.height * 0.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
+                    
                     image: const DecorationImage(
                       image: AssetImage("images/bars.png"),
                       fit: BoxFit.cover,
@@ -245,6 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
                       onTap: () {
+                        // getTouristSpot();
                         Navigator.of(context).pushNamed("/setting_page");
                       },
                     ),

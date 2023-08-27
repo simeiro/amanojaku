@@ -76,25 +76,32 @@ class DarkGotchaPage extends StatelessWidget {
 
             Stack(
               children: <Widget>[
+                
                 Container(// 通常ガチャ本体
-                  padding: EdgeInsets.only(
-                      top: sizes.height * 0.015,
+                  margin: EdgeInsets.only(
+                      top: sizes.height * 0.025,
                       bottom: sizes.height * 0.02),
-                  width: sizes.width * 0.75,
-                  child: Image.asset(
-                    'images/normal_gacha.png',
-                    fit: BoxFit.fill,
-                  ),
+                  width: double.infinity,
+                  height: sizes.height * 0.625,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child:
+                    Image.asset('images/normal_gacha.png',),
+                  )
                 ),
-                Container(
-                  padding: EdgeInsets.only(
-                    top: sizes.height * 0.41,
-                    left: sizes.width * 0.26
-                  ),
-                child: Image.asset(
-                  'images/button.png',
+                Container(// button
+                  margin: EdgeInsets.only(
+                      top: sizes.height * 0.025,
+                      bottom: sizes.height * 0.02),
+
+                  width: double.infinity,
+                  height: sizes.height * 0.625,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child:
+                    Image.asset('images/button.png',),
+                  )
                 ),
-                )
               ],
             ),
 
@@ -110,9 +117,9 @@ class DarkGotchaPage extends StatelessWidget {
             // ),
           ],
         ),
-        // Expanded(
-        //   child: Container(), // 空のコンテナでスペースを占有
-        // ),
+        Expanded(
+          child: Container(), // 空のコンテナでスペースを占有
+        ),
 
         const Divider(
           // アイコンの区切り線
@@ -131,8 +138,8 @@ class DarkGotchaPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: sizes.width * 0.15,
-                height: sizes.width * 0.15,
+                width: sizes.height * 0.1,
+                height: sizes.height * 0.1,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
@@ -153,8 +160,8 @@ class DarkGotchaPage extends StatelessWidget {
               ),
               Container(
                 // ガチャのアイコン
-                width: sizes.width * 0.15,
-                height: sizes.width * 0.15,
+                width: sizes.height * 0.1,
+                height: sizes.height * 0.1,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
@@ -175,8 +182,8 @@ class DarkGotchaPage extends StatelessWidget {
               ),
               Container(
                 // 設定画面のアイコン
-                width: sizes.width * 0.15,
-                height: sizes.width * 0.15,
+                width: sizes.height * 0.1,
+                height: sizes.height * 0.1,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
