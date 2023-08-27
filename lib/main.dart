@@ -2,7 +2,7 @@
 // import 'dart:ffi' as ffi;
 
 import 'package:flutter/material.dart';
-// import 'package:amanojaku/dark_gotcha_page.dart';
+import 'package:amanojaku/dark_gotcha_page.dart';
 import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:amanojaku/setting_page.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         "/map_page": (context) => const MyHomePage(
               title: 'map',
             ),
-        "/dark_gotcha_page": (context) => const DecisionGotchaPage(), // 通常ガチャのページ（変えてます）
+        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ（変えてます）
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
         "/setting_page": (context) => const SettingPage(), // 設定のページ
       },
