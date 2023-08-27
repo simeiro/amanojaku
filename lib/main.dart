@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:amanojaku/dark_gotcha_page.dart';
 import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:amanojaku/setting_page.dart';
+import 'package:amanojaku/result_page.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -19,7 +20,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
         "/map_page": (context) => const MyHomePage(
               title: 'map',
             ),
-        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ（変えてます）
+        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
+        "/result_page": (context) => const ResultPage(), // 排出結果
         "/setting_page": (context) => const SettingPage(), // 設定のページ
       },
     );
