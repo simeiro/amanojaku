@@ -34,9 +34,9 @@ class MyApp extends StatelessWidget {
         "/map_page": (context) => const MyHomePage(
               title: 'map',
             ),
-        "/dark_gotcha_page": (context) => const DarkGotchaPage(),
-        "/decision_gotcha_page": (context) => const DecisionGotchaPage(),
-        "/setting_page": (context) => const SettingPage(),
+        "/dark_gotcha_page": (context) => const DarkGotchaPage(), // 通常ガチャのページ（変えてます）
+        "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
+        "/setting_page": (context) => const SettingPage(), // 設定のページ
       },
     );
   }

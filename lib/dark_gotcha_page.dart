@@ -1,14 +1,19 @@
+import 'package:amanojaku/decision_gotcha_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DarkGotchaPage extends StatelessWidget {
-  const DarkGotchaPage({super.key});
+  const DarkGotchaPage({super.key}); // 通常ガチャ
 
   @override
   Widget build(BuildContext context) {
     final sizes = MediaQuery.of(context).size; // 画面サイズを取得する
-    return Scaffold(
-        body: Column(
+    return MaterialApp(
+      routes: {
+        "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
+      },
+        home: Scaffold(
+            body: Column(
       // 縦に並べる
       children: [
         Column(
@@ -45,7 +50,8 @@ class DarkGotchaPage extends StatelessWidget {
                             fontSize: 18 // フォントサイズ：18
                             ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                     ),
                   ),
                   Container(
@@ -69,58 +75,50 @@ class DarkGotchaPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         // 闇鍋ガチャの画面に遷移する
+                        Navigator.of(context).pushNamed("/decision_gotcha_page");
                       },
                     ),
                   )
                 ]),
-
             Stack(
               children: <Widget>[
-                
-                Container(// 通常ガチャ本体
-                  margin: EdgeInsets.only(
-                      top: sizes.height * 0.025,
-                      bottom: sizes.height * 0.02),
-                  width: double.infinity,
-                  height: sizes.height * 0.625,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child:
-                    Image.asset('images/normal_gacha.png',),
-                  )
-                ),
-                Container(// button
-                  margin: EdgeInsets.only(
-                      top: sizes.height * 0.025,
-                      bottom: sizes.height * 0.02),
-
-                  width: double.infinity,
-                  height: sizes.height * 0.625,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child:
-                    Image.asset('images/button.png',),
-                  )
+                Container(
+                    // 通常ガチャ本体
+                    margin: EdgeInsets.only(
+                        top: sizes.height * 0.05, bottom: sizes.height * 0.02),
+                    width: double.infinity,
+                    height: sizes.height * 0.625,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Image.asset(
+                        'images/normal_gacha.png',
+                      ),
+                    )),
+                GestureDetector(
+                  onTap: () {
+                    // ガチャが回せる
+                  },
+                  child: Container(
+                      // ハンドル
+                      margin: EdgeInsets.only(
+                          top: sizes.height * 0.05,
+                          bottom: sizes.height * 0.02),
+                      width: double.infinity,
+                      height: sizes.height * 0.625,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Image.asset(
+                          'images/button.png',
+                        ),
+                      )),
                 ),
               ],
             ),
-
-            // Text(
-            //   // テキスト
-            //   'ハンドルをタップ！', // テキスト「ハンドルをタップ!」
-            //   style: GoogleFonts.zenMaruGothic(
-            //       // テキストの色
-            //       textStyle: Theme.of(context).textTheme.headlineMedium,
-            //       color: Colors.black, // テキストの色（白）
-            //       fontSize: 36 // フォントサイズ：16
-            //       ),
-            // ),
           ],
         ),
         Expanded(
           child: Container(), // 空のコンテナでスペースを占有
         ),
-
         const Divider(
           // アイコンの区切り線
           color: Colors.black,
@@ -128,12 +126,9 @@ class DarkGotchaPage extends StatelessWidget {
           indent: 20,
           endIndent: 20,
         ),
-
         SizedBox(
           // マップのアイコン
           width: double.infinity,
-          // padding: EdgeInsets.all(size.height * 0.01),
-          // color: Colors.grey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -205,8 +200,7 @@ class DarkGotchaPage extends StatelessWidget {
             ],
           ),
         )
-
       ],
-    ));
+    )));
   }
 }
