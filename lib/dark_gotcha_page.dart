@@ -1,4 +1,5 @@
 import 'package:amanojaku/decision_gotcha_page.dart';
+import 'package:amanojaku/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +12,7 @@ class DarkGotchaPage extends StatelessWidget {
     return MaterialApp(
       routes: {
         "/decision_gotcha_page": (context) => const DecisionGotchaPage(), // 闇鍋ガチャのページ
+        "/result_page": (context) => const ResultPage(), // 闇鍋ガチャのページ
       },
         home: Scaffold(
             body: Column(
@@ -97,6 +99,7 @@ class DarkGotchaPage extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     // ガチャが回せる
+                    Navigator.of(context).pushNamed("/result_page");
                   },
                   child: Container(
                       // ハンドル
