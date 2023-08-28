@@ -1,12 +1,23 @@
 import 'package:amanojaku/dark_gotcha_page.dart';
+import 'package:amanojaku/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DecisionGotchaPage extends StatelessWidget {
+class DecisionGotchaPage extends ConsumerStatefulWidget {
   const DecisionGotchaPage({super.key}); // 闇鍋ガチャ
+  
+  @override
+  _DecisionGotchaPage createState() => _DecisionGotchaPage();
+}
+
+
+class _DecisionGotchaPage extends ConsumerState<DecisionGotchaPage>{
 
   @override
   Widget build(BuildContext context) {
+    var itemsNotifier = ref.watch(settingConditionProvider.notifier);
+    var items = ref.watch(settingConditionProvider);
     final sizes = MediaQuery.of(context).size; // 画面サイズを取得する
     return MaterialApp(
       // routes: {
@@ -101,6 +112,13 @@ class DecisionGotchaPage extends StatelessWidget {
                     GestureDetector(
                       // button
                       onTap: () {
+                        itemsNotifier.state = SettingCondition(
+                        isAdault: items.isAdault,
+                        price: items.price,
+                        distance: items.distance,
+                        isFood: items.isFood,
+                        isYami: true,
+                      );
                         // ガチャが回せる
                         Navigator.of(context).pushNamed("/result_page");
                       },
