@@ -100,13 +100,79 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
       bottomNavigationBar: Column(
         children: [
-          SizedBox(
-              height: size.height * 0.85,
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition:
-                    CameraPosition(target: _center, zoom: 11.0),
-              )),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: size.height * 0.075),
+                child: const Text(
+                  "アプリの使い方",
+                  style: TextStyle(
+                    fontSize: 40,
+                  ),
+                ),
+              ),
+              // Container(
+              // margin: const EdgeInsets.only(top: size.height * 0.2)),
+              Container(
+                margin: EdgeInsets.only(top: size.height * 0.05),
+                padding: EdgeInsets.all(size.height * 0.01),
+                width: size.width * 0.7, // 60%
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(width: 2),
+                ),
+                child: const Column(
+                  // 年齢確認
+                  children: <Widget>[
+                    Text(
+                      '通常ガチャ',
+                      style: TextStyle(
+                        fontSize: 30,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    Text(
+                      '通常ガチャは、アプリに登録された場所の中から、ユーザーが設定した排出設定でランダムに排出されるガチャです。',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: size.height * 0.05),
+                padding: EdgeInsets.all(size.height * 0.01),
+                width: size.width * 0.7, // 60%
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(width: 2),
+                ),
+                child: const Column(
+                  // 年齢確認
+                  children: <Widget>[
+                    Text(
+                      '闇鍋ガチャ',
+                      style: TextStyle(
+                        fontSize: 30,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    Text(
+                      '闇鍋ガチャは、アプリに登録された全ての場所からランダムで排出されるガチャです。',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Container(), // 空のコンテナでスペースを占有
           ),
