@@ -20,6 +20,6 @@
   
 ## 開発メンバー
 - [Mossann425](https://github.com/Mossann425)
-- [Simeiro](https://github.com/simeiro)
+- [simeiro](https://github.com/simeiro)
 - [Sympa116](https://github.com/Sympa116)
-- [ASAKURA](https://github.com/CrazyHuman00)
+- [CrazyHuman00](https://github.com/CrazyHuman00)
