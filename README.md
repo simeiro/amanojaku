@@ -1,5 +1,5 @@
-# キョウガチャ
-- ガチャを回すと京都で今日遊ぶ場所の候補地を排出します。<img src="https://github.com/simeiro/amanojaku/assets/142687278/bf130419-7438-43a7-85cd-5423e6cdbc74" width="4%">
+# キョウガチャ  <img src="https://github.com/simeiro/amanojaku/assets/142687278/bf130419-7438-43a7-85cd-5423e6cdbc74" width="4%">
+- ガチャを回すと京都で今日遊ぶ場所の候補地を排出します。
 
 
 ## 使い方
