@@ -1,5 +1,7 @@
 # キョウガチャ
 - ガチャを回すと京都で今日遊ぶ場所の候補地を排出します。![image](https://github.com/simeiro/amanojaku/assets/142687278/bf130419-7438-43a7-85cd-5423e6cdbc74)
+<img src="https://github.com/simeiro/amanojaku/assets/142687278/bf130419-7438-43a7-85cd-5423e6cdbc74" width="30%">
+
 
 ## 使い方
 通常ガチャと闇鍋ガチャの二つがあります。
