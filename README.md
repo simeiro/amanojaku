@@ -9,7 +9,7 @@
 - flutter
 - GoogleAPI
 - ホットペッパービューAPI
-- 
+  
 ## ツール
 - Github
 - Figma
