@@ -15,7 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 
-  List<String> resultData = ['待機中...','0.0','0.0'];
+  
 
 
 
@@ -27,14 +27,12 @@ class ResultPage extends ConsumerStatefulWidget {
 }
 
 class _ResultPage extends ConsumerState<ResultPage> {
-  
-  
+  List<String> resultData = ['待機中...','0.0','0.0'];
   late GoogleMapController? _mapController;
-  // Double latitude = double.parse(foodData[1]);
-  // Double longitude = double.parse(foodData[2]);
-  // List<double> doubleList = resultData.map((str) => double.parse(str)).toList();
-
-  final LatLng _targetLocation = LatLng(35.0, 135.0); // 東京の緯度経度
+  // late double lat;
+  // late double lon;
+  // final LatLng _targetLocation = LatLng(lat, lon); // 東京の緯度経度
+  // late LatLng _targetLocation;
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
@@ -235,191 +233,204 @@ class _ResultPage extends ConsumerState<ResultPage> {
     print(randomNumber);
     return data;
   }
-  //List<String> resultData = ['待機中...','0.0','0.0'];
+  
 
 
   
   @override
   void initState() {
-    Future(()async {
-      final items = ref.watch(settingConditionProvider);
-      resultData = await getData(items);
-      setState(() {});
-    });
     super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
     final  size = MediaQuery.of(context).size;
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white, // テーマ色
-        body: Column(
-          children: <Widget>[
+    final items = ref.watch(settingConditionProvider);
+    return FutureBuilder<List<String>>(
+      future: getData(items),
+      builder: (context, snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // ローディング表示
+        } else if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        } else {
+          List<String> resultData = snapshot.data ?? ['待機中...', '0.0', '0.0'];
 
-            Container(
-              padding: EdgeInsets.all(32),
-              height: 400,
-              width: 400,
-              child: SizedBox(
-                // width: size.width * 0.5,
-                height: size.height * 0.5,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: _targetLocation,
-                    zoom: 12.0,
-                  ),
-                  onMapCreated: _onMapCreated,
-                  markers: Set<Marker>.from([
-                    Marker(
-                      markerId: MarkerId('target_marker'),
-                      position: _targetLocation,
-                      infoWindow: InfoWindow(
-                        title: 'Target Location',
+          LatLng _targetLocation = LatLng(double.parse(resultData[1]), double.parse(resultData[2]));
+    // LatLng _targetLocation = LatLng(double.parse(resultData[1]), double.parse(resultData[2])); // 東京の緯度経度
+        return MaterialApp(
+          home: Scaffold(
+            backgroundColor: Colors.white, // テーマ色
+            body: Column(
+              children: <Widget>[
+
+                Container(
+                  padding: EdgeInsets.all(32),
+                  height: 400,
+                  width: 400,
+                  child: SizedBox(
+                    // width: size.width * 0.5,
+                    height: size.height * 0.5,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: _targetLocation,
+                        zoom: 20.0,
                       ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
-
-            Text(
-              resultData[0].toString(),
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final urlString = 'https://www.google.com/maps/search/?api=1&query=${resultData[1]},${resultData[2]}';
-                final Uri url = Uri.parse(urlString.trimLeft());
-              
-                if (await canLaunchUrl(url)) {
-                  launch(urlString, forceSafariVC: false);
-                }
-
-              }, child: const Text("GoogleMapへ")),
-
-            Container(
-                margin: EdgeInsets.only(
-                top: size.height * 0.05, bottom: size.height * 0.02),
-                height: size.height * 0.075,
-                // 縦の大きさを全体の17.5%にする
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF9649),
-                    side: const BorderSide(
-                      // 外枠線
-                      color: Colors.black, // テキストカラー：black
-                      width: 2, //太さ
-                    ),
-                  ),
-                  child: Text(
-                    //テキスト：ハンドルをタップ
-                    '戻る',
-                    style: GoogleFonts.zenMaruGothic(
-                        // フォント
-                        textStyle: Theme.of(context).textTheme.headlineMedium,
-                        color: Colors.black, // テキストカラー：black
-                        fontSize: 18 // フォントサイズ：18
+                      onMapCreated: _onMapCreated,
+                      markers: Set<Marker>.from([
+                        Marker(
+                          markerId: MarkerId('target_marker'),
+                          position: _targetLocation,
+                          infoWindow: InfoWindow(
+                            title: 'Target Location',
+                          ),
                         ),
+                      ]),
+                    ),
                   ),
-                  onPressed: () {
-                    // getTouristSpot();
-                    // getData();
-                    Navigator.of(context).pushNamed("/dark_gotcha_page");
-                  },
                 ),
-              ),
-            // Container(
-            //   padding: EdgeInsets.only(top: size.height * 0.74),
-            //   // child: Container(), // 空のコンテナでスペースを占有
-            // ),
-            Expanded(
-              child: Container(), // 空のコンテナでスペースを占有
+
+                Text(
+                  resultData[0].toString(),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final urlString = 'https://www.google.com/maps/search/?api=1&query=${resultData[1]},${resultData[2]}';
+                    final Uri url = Uri.parse(urlString.trimLeft());
+                  
+                    if (await canLaunchUrl(url)) {
+                      launch(urlString, forceSafariVC: false);
+                    }
+
+                  }, child: const Text("GoogleMapへ")),
+
+                Container(
+                    margin: EdgeInsets.only(
+                    top: size.height * 0.05, bottom: size.height * 0.02),
+                    height: size.height * 0.075,
+                    // 縦の大きさを全体の17.5%にする
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFF9649),
+                        side: const BorderSide(
+                          // 外枠線
+                          color: Colors.black, // テキストカラー：black
+                          width: 2, //太さ
+                        ),
+                      ),
+                      child: Text(
+                        //テキスト：ハンドルをタップ
+                        '戻る',
+                        style: GoogleFonts.zenMaruGothic(
+                            // フォント
+                            textStyle: Theme.of(context).textTheme.headlineMedium,
+                            color: Colors.black, // テキストカラー：black
+                            fontSize: 18 // フォントサイズ：18
+                            ),
+                      ),
+                      onPressed: () {
+                        // getTouristSpot();
+                        // getData();
+                        Navigator.of(context).pushNamed("/dark_gotcha_page");
+                      },
+                    ),
+                  ),
+                // Container(
+                //   padding: EdgeInsets.only(top: size.height * 0.74),
+                //   // child: Container(), // 空のコンテナでスペースを占有
+                // ),
+                Expanded(
+                  child: Container(), // 空のコンテナでスペースを占有
+                ),
+                const Divider(
+                  // アイコンの区切り線
+                  color: Colors.black,
+                  thickness: 3,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: size.height * 0.1,
+                        height: size.height * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: const DecorationImage(
+                            image: AssetImage("images/map.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8.0),
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/map_page");
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: size.height * 0.1,
+                        height: size.height * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: const DecorationImage(
+                            image: AssetImage("images/capsule.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8.0),
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/dark_gotcha_page");
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: size.height * 0.1,
+                        height: size.height * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: const DecorationImage(
+                            image: AssetImage("images/bars.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8.0),
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/setting_page");
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-            const Divider(
-              // アイコンの区切り線
-              color: Colors.black,
-              thickness: 3,
-              indent: 20,
-              endIndent: 20,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: size.height * 0.1,
-                    height: size.height * 0.1,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/map.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/map_page");
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: size.height * 0.1,
-                    height: size.height * 0.1,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/capsule.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/dark_gotcha_page");
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: size.height * 0.1,
-                    height: size.height * 0.1,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/bars.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/setting_page");
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      }
+      }
     );
   }
 }
